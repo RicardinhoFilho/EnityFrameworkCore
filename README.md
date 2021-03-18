@@ -1,6 +1,6 @@
 <h1>Introducao Entity Framework Core</h1>
 <p>Mapeamento de nossas classes:
-  ![Classes](Classes.png "Mapeamento de nossas classes")
+  <img src="Classes.png" alt="Imagem Classes"/>
 </p>
 <ol>
 <li>Instalação do Pacote NuGet EntityFrameworkCore 1.1.1</li>
