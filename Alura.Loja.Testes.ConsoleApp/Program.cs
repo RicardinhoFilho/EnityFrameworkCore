@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,6 +15,118 @@ namespace Alura.Loja.Testes.ConsoleApp
 
 
         static void Main(string[] args)
+        {
+
+           
+        }
+
+        static void JoinUmParaUmMaisFiltro()
+        {
+            using (var contexto = new LojaContext())
+            {
+                var produto = contexto.Produtos.Include(p => p.Compras).Where(p => p.Id == 1).FirstOrDefault();
+                contexto.Entry(produto).Collection(p => p.Compras).Query().Where(c => c.Quantidade > 5).Load();
+
+                Console.WriteLine($"Mostrando as compras do produto {produto.Nome}");
+            }
+        }
+        static void JoinsUmParUm()
+        {
+            using (var contexto = new LojaContext())
+            {
+                var cliente = contexto.Clientes.Include(c => c.EnderecoEntrega).FirstOrDefault();//Pegando primeiro cliente
+
+                Console.WriteLine($"Endereço de entrega: {cliente.EnderecoEntrega.Logradouro}");
+
+                var produto = contexto.Produtos.Include(p => p.Compras).Where(p => p.Id == 1).FirstOrDefault();
+
+                Console.WriteLine($"Mostrando as compras do produto {produto.Nome}");
+                foreach (var item in produto.Compras)
+                {
+                    Console.WriteLine(item.Quantidade);
+                }
+            }
+        }
+
+        static void JoinsUmParaVarios()
+        {
+            using (var contexto2 = new LojaContext())
+            {
+                var promocao = contexto2
+                    .Promocoes
+                    .Include(p => p.Produtos)
+                    .ThenInclude(pp => pp.Produto)
+                    .Last();
+
+                Console.WriteLine("\nMotrando os produtos da promoção...");
+                foreach (var item in promocao.Produtos)
+                {
+                    Console.WriteLine(item.Produto.Nome);
+                }
+            }
+        }
+
+        static void IncluiBebidasEPromocao()
+        {
+            using (var contexto = new LojaContext())
+            {
+                var produto1 = new Produto()
+                {
+                    Categoria = "Bebida",
+                    Nome = "Refrigerante",
+                    PrecoUnitario = 4.5,
+                    Unidade = 1
+                };
+                var produto2 = new Produto()
+                {
+                    Categoria = "Enlatado",
+                    Nome = "Atum",
+                    PrecoUnitario = 6,
+                    Unidade = 1
+                };
+                var produto3 = new Produto()
+                {
+                    Categoria = "Bebida",
+                    Nome = "Suco",
+                    PrecoUnitario = 4.3,
+                    Unidade = 1
+                };
+                var produto4 = new Produto()
+                {
+                    Categoria = "Bebida",
+                    Nome = "Vodka",
+                    PrecoUnitario = 13,
+                    Unidade = 1
+                };
+
+                contexto.Produtos.Add(produto1);
+                contexto.Produtos.Add(produto2);
+                contexto.Produtos.Add(produto3);
+                contexto.Produtos.Add(produto4);
+
+                contexto.SaveChanges();
+
+                var promocao = new Promocao();
+                promocao.Descricao = "Qeima Total Janeiro 2017";
+                promocao.DataInicio = new DateTime(2021, 1, 1);
+                promocao.DataTermino = new DateTime(2021, 1, 31);
+
+                var produtos = contexto.Produtos.Where(p => p.Categoria == "Bebida").ToList();
+
+                foreach (var produto in produtos)
+                {
+                    promocao.IncluiProduto(produto);
+                }
+
+                contexto.Promocoes.Add(promocao);
+
+                contexto.SaveChanges();
+            }
+
+        }
+
+
+        static void UmParaUm()
         {
             var fulano = new Cliente();
             fulano.Nome = "Fulano";
@@ -31,14 +144,8 @@ namespace Alura.Loja.Testes.ConsoleApp
                 contexto.Clientes.Add(fulano);
                 contexto.SaveChanges();
             }
-
             Console.ReadLine();
         }
-
-
-
-
-
         static void MuitosParaMuitos()
         {
             var p1 = new Produto();

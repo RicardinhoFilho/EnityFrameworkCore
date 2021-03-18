@@ -9,6 +9,7 @@ namespace Alura.Loja.Testes.ConsoleApp
         public string Categoria { get; internal set; }
         public double PrecoUnitario { get; internal set; }
         public int Unidade { get; set; }
+        public IList<Compra> Compras { get; set; }
 
         public IList<PromocaoProduto> Promocoes { get; set; }
     }
