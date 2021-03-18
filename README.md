@@ -1,4 +1,7 @@
 <h1>Introducao Entity Framework Core</h1>
+<p>Mapeamento de nossas classes:
+  ![Classes](Classes.png "Mapeamento de nossas classes")
+</p>
 <ol>
 <li>Instalação do Pacote NuGet EntityFrameworkCore 1.1.1</li>
 <li>
@@ -27,9 +30,12 @@ Select
      <li>Update-Database</li>
   </ul>
   </li>
-  <li></li>
-   <li></li>
-   <li></li>
-   <li></li>
-   <li></li>
+  <li>
+  Trabalhando com Join
+  <ul>
+    <li>Include()</li>
+    <li>ThenInclude()</li>
+    <li>Load()</li>
+  </ul>
+  </li>
 </ol>
