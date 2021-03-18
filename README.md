@@ -17,6 +17,19 @@ Select
 <li>DbSet.Last()</li>
 </ul>
 </li>
-<li></li>
-<li></li>
+<li>Estado de Modificação -> DbContext.ChangeTraker</li>
+<li>
+  Trabalhando com migrations
+  <ul>
+    <li>Install-Package Microsoft.EntityFramework.Tools</li>
+     <li>Add-Migration</li>
+     <li>Remove-Migration</li>
+     <li>Update-Database</li>
+  </ul>
+  </li>
+  <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
 </ol>
